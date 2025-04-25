@@ -95,8 +95,8 @@ export function SortPanel({
   const activeSortCount = sortOptions.length;
 
   return (
-    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 shadow-sm">
-      <div className="flex items-center justify-between mb-4">
+    <div className="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0 mb-4">
         <div className="flex items-center">
           <Filter className="h-5 w-5 mr-2 text-indigo-600" />
           <h3 className="font-medium text-gray-800">Sort Results</h3>
@@ -112,13 +112,13 @@ export function SortPanel({
               variant="outline"
               size="sm"
               disabled={availableFields.length === 0}
-              className="border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 text-gray-700"
+              className="w-full sm:w-auto border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 text-gray-700"
             >
               <Plus className="mr-2 h-4 w-4" />
               Add Sort Criteria
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 border-gray-200 shadow-md">
+          <DropdownMenuContent className="w-full min-w-[200px] max-w-[280px] border-gray-200 shadow-md">
             <div className="px-2 py-1.5 text-xs font-medium text-gray-500">
               Available Fields
             </div>
@@ -171,15 +171,17 @@ export function SortPanel({
       {sortOptions.length === 0 && (
         <div className="flex flex-col items-center justify-center py-6 text-gray-500 bg-white rounded-lg border border-dashed border-gray-300">
           <Filter className="h-10 w-10 mb-2 text-gray-300" />
-          <p className="text-sm font-medium">No sort criteria selected</p>
-          <p className="text-xs mt-1">
+          <p className="text-sm font-medium text-center">
+            No sort criteria selected
+          </p>
+          <p className="text-xs mt-1 text-center px-2">
             Add criteria to sort your client results
           </p>
         </div>
       )}
 
       {sortOptions.length > 0 && (
-        <div className="flex justify-end mt-4 space-x-2">
+        <div className="flex justify-center sm:justify-end mt-4">
           <Button
             variant="outline"
             size="sm"
@@ -244,11 +246,11 @@ function SortItem({
     <div
       ref={setNodeRef}
       style={style}
-      className={`flex items-center justify-between bg-white p-3 rounded-md border ${
+      className={`flex flex-wrap sm:flex-nowrap items-center justify-between bg-white p-2 sm:p-3 rounded-md border ${
         option.direction === "asc" ? "border-indigo-200" : "border-blue-200"
       } ${isDragging ? "shadow-md" : "shadow-sm"}`}
     >
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center w-full sm:w-auto sm:space-x-2">
         <button
           {...attributes}
           {...listeners}
@@ -258,15 +260,17 @@ function SortItem({
           <GripVertical className="h-4 w-4" />
         </button>
 
-        <div className="flex items-center space-x-1">
+        <div className="flex items-center space-x-1 flex-grow sm:flex-grow-0 truncate">
           {fieldIcons[option.field] || (
-            <Filter className="h-3 w-3 text-gray-500" />
+            <Filter className="h-3 w-3 text-gray-500 flex-shrink-0" />
           )}
-          <span className="text-sm font-medium text-gray-700">
+          <span className="text-sm font-medium text-gray-700 truncate">
             {fieldLabels[option.field] || option.field}
           </span>
         </div>
+      </div>
 
+      <div className="flex items-center justify-between w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2">
         <div
           className={`px-2 py-1 rounded-full text-xs font-medium ${
             option.direction === "asc"
@@ -293,17 +297,17 @@ function SortItem({
             )}
           </Button>
         </div>
-      </div>
 
-      <Button
-        variant="ghost"
-        size="sm"
-        className="h-6 w-6 p-0 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full"
-        onClick={() => onRemove(option.id)}
-        aria-label="Remove sort criteria"
-      >
-        <X className="h-3 w-3" />
-      </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-6 w-6 p-0 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full ml-2"
+          onClick={() => onRemove(option.id)}
+          aria-label="Remove sort criteria"
+        >
+          <X className="h-3 w-3" />
+        </Button>
+      </div>
     </div>
   );
 }

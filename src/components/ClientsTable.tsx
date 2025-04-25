@@ -35,6 +35,7 @@ import {
   Filter,
   ArrowUp,
   ArrowDown,
+  ChevronRight,
 } from "lucide-react";
 
 export const columns: ColumnDef<IClientData>[] = [
@@ -50,7 +51,8 @@ export const columns: ColumnDef<IClientData>[] = [
           <span className="text-xs text-gray-500 group-hover:text-indigo-500">
             #
           </span>
-          <span>Client ID</span>
+          <span className="hidden sm:inline">Client ID</span>
+          <span className="sm:hidden">ID</span>
           {isSorted && (
             <div className="ml-1">
               {isSorted === "asc" ? (
@@ -106,7 +108,9 @@ export const columns: ColumnDef<IClientData>[] = [
           ) : (
             <Building2 size={20} className="mr-2 text-blue-500" />
           )}
-          <span className="font-medium">{row.getValue("name") as string}</span>
+          <span className="font-medium truncate max-w-[120px] sm:max-w-full">
+            {row.getValue("name") as string}
+          </span>
         </div>
       );
     },
@@ -124,7 +128,8 @@ export const columns: ColumnDef<IClientData>[] = [
             size={16}
             className="text-gray-500 group-hover:text-indigo-500"
           />
-          <span>Client Type</span>
+          <span className="hidden sm:inline">Client Type</span>
+          <span className="sm:hidden">Type</span>
           {isSorted && (
             <div className="ml-1">
               {isSorted === "asc" ? (
@@ -145,7 +150,7 @@ export const columns: ColumnDef<IClientData>[] = [
       return (
         <div className="flex items-center">
           <span
-            className={`px-3 py-1 rounded-full text-xs font-medium ${
+            className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${
               type === "Individual"
                 ? "bg-indigo-100 text-indigo-800"
                 : "bg-blue-100 text-blue-800"
@@ -190,8 +195,11 @@ export const columns: ColumnDef<IClientData>[] = [
       const email = row.getValue("email") as string;
       return (
         <div className="flex items-center text-sm">
-          <Mail size={16} className="mr-2 text-gray-400" />
-          <a href={`mailto:${email}`} className="text-blue-600 hover:underline">
+          <Mail size={16} className="mr-2 text-gray-400 hidden sm:block" />
+          <a
+            href={`mailto:${email}`}
+            className="text-blue-600 hover:underline truncate max-w-[120px] sm:max-w-full"
+          >
             {email}
           </a>
         </div>
@@ -232,18 +240,18 @@ export const columns: ColumnDef<IClientData>[] = [
       return (
         <div className="flex items-center">
           {status === "Active" ? (
-            <span className="flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-              <BadgeCheck size={14} className="mr-1" />
+            <span className="flex items-center px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              <BadgeCheck size={14} className="mr-1 hidden sm:inline" />
               Active
             </span>
           ) : status === "Inactive" ? (
-            <span className="flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-              <BadgeX size={14} className="mr-1" />
+            <span className="flex items-center px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+              <BadgeX size={14} className="mr-1 hidden sm:inline" />
               Inactive
             </span>
           ) : (
-            <span className="flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-              <AlertCircle size={14} className="mr-1" />
+            <span className="flex items-center px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+              <AlertCircle size={14} className="mr-1 hidden sm:inline" />
               Pending
             </span>
           )}
@@ -264,7 +272,8 @@ export const columns: ColumnDef<IClientData>[] = [
             size={16}
             className="text-gray-500 group-hover:text-indigo-500"
           />
-          <span>Created At</span>
+          <span className="hidden sm:inline">Created At</span>
+          <span className="sm:hidden">Created</span>
           {isSorted && (
             <div className="ml-1">
               {isSorted === "asc" ? (
@@ -289,10 +298,17 @@ export const columns: ColumnDef<IClientData>[] = [
         day: "numeric",
       }).format(date);
 
+      // Mobile format - shorter
+      const mobileFormattedDate = new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        day: "numeric",
+      }).format(date);
+
       return (
         <div className="flex items-center text-sm">
-          <Calendar size={14} className="mr-2 text-gray-400" />
-          <span>{formattedDate}</span>
+          <Calendar size={14} className="mr-2 text-gray-400 hidden sm:block" />
+          <span className="hidden sm:inline">{formattedDate}</span>
+          <span className="sm:hidden">{mobileFormattedDate}</span>
         </div>
       );
     },
@@ -310,7 +326,8 @@ export const columns: ColumnDef<IClientData>[] = [
             size={16}
             className="text-gray-500 group-hover:text-indigo-500"
           />
-          <span>Last Updated</span>
+          <span className="hidden sm:inline">Last Updated</span>
+          <span className="sm:hidden">Updated</span>
           {isSorted && (
             <div className="ml-1">
               {isSorted === "asc" ? (
@@ -335,10 +352,17 @@ export const columns: ColumnDef<IClientData>[] = [
         day: "numeric",
       }).format(date);
 
+      // Mobile format - shorter
+      const mobileFormattedDate = new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        day: "numeric",
+      }).format(date);
+
       return (
         <div className="flex items-center text-sm">
-          <Clock size={14} className="mr-2 text-gray-400" />
-          <span>{formattedDate}</span>
+          <Clock size={14} className="mr-2 text-gray-400 hidden sm:block" />
+          <span className="hidden sm:inline">{formattedDate}</span>
+          <span className="sm:hidden">{mobileFormattedDate}</span>
         </div>
       );
     },
@@ -363,6 +387,7 @@ export function ClientsTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isRowAnimated, setIsRowAnimated] = useState(false);
   const [prevSortingState, setPrevSortingState] = useState<SortingState>([]);
+  const [showFilterMenu, setShowFilterMenu] = useState(false);
 
   const filteredData = useMemo(() => {
     let result = mockClients;
@@ -428,7 +453,7 @@ export function ClientsTable() {
   });
 
   return (
-    <div className="space-y-4 bg-white p-6 rounded-lg shadow-sm">
+    <div className="space-y-4 bg-white p-3 sm:p-6 rounded-lg shadow-sm">
       <style>{`
         @keyframes fadeIn {
           from {
@@ -475,13 +500,13 @@ export function ClientsTable() {
         }
       `}</style>
 
-      <div className="flex items-center justify-between border-b pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-4 gap-3">
         <h2 className="text-xl font-semibold text-gray-800 flex items-center">
           <Users className="mr-2 text-indigo-600" />
           Client Management
         </h2>
 
-        <div className="relative">
+        <div className="relative w-full sm:w-auto">
           <Search
             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
             size={16}
@@ -491,49 +516,49 @@ export function ClientsTable() {
             placeholder="Search clients..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+            className="w-full sm:w-auto pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
           />
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center space-x-1 bg-gray-50 p-1 rounded-lg">
+      <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:items-center justify-between sm:gap-4">
+        <div className="flex flex-wrap items-center gap-1 bg-gray-50 p-1 rounded-lg">
           <Button
             variant={typeFilter === "All" ? "default" : "outline"}
             onClick={() => setTypeFilter("All")}
-            className={`text-sm ${
+            className={`text-xs sm:text-sm flex-1 sm:flex-none ${
               typeFilter === "All" ? "bg-indigo-600 hover:bg-indigo-700" : ""
             } transition-all duration-200`}
           >
-            All Clients
+            All
           </Button>
           <Button
             variant={typeFilter === "Individual" ? "default" : "outline"}
             onClick={() => setTypeFilter("Individual")}
-            className={`text-sm ${
+            className={`text-xs sm:text-sm flex-1 sm:flex-none ${
               typeFilter === "Individual"
                 ? "bg-indigo-600 hover:bg-indigo-700"
                 : ""
             } transition-all duration-200`}
           >
-            <UserCircle size={16} className="mr-1" />
+            <UserCircle size={16} className="mr-1 hidden sm:inline" />
             Individuals
           </Button>
           <Button
             variant={typeFilter === "Company" ? "default" : "outline"}
             onClick={() => setTypeFilter("Company")}
-            className={`text-sm ${
+            className={`text-xs sm:text-sm flex-1 sm:flex-none ${
               typeFilter === "Company"
                 ? "bg-indigo-600 hover:bg-indigo-700"
                 : ""
             } transition-all duration-200`}
           >
-            <Building2 size={16} className="mr-1" />
+            <Building2 size={16} className="mr-1 hidden sm:inline" />
             Companies
           </Button>
         </div>
 
-        <div className="flex items-center text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-md">
+        <div className="flex items-center text-xs sm:text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-md">
           <Filter size={14} className="mr-2 text-indigo-500" />
           <span>
             Showing <strong>{filteredData.length}</strong> of{" "}
@@ -542,78 +567,106 @@ export function ClientsTable() {
         </div>
       </div>
 
-      <SortPanel
-        sortOptions={sortOptions}
-        onSortChange={setSortOptions}
-        availableFields={availableFields}
-      />
+      <Button
+        onClick={() => setShowFilterMenu(!showFilterMenu)}
+        variant="outline"
+        className="flex items-center justify-between w-full sm:hidden text-sm"
+      >
+        <span className="flex items-center">
+          <Filter size={16} className="mr-2 text-indigo-500" />
+          Sort Options {sortOptions.length > 0 && `(${sortOptions.length})`}
+        </span>
+        <ChevronRight
+          size={16}
+          className={`transition-transform ${
+            showFilterMenu ? "rotate-90" : ""
+          }`}
+        />
+      </Button>
 
-      <div className="rounded-lg overflow-hidden border border-gray-200 shadow-sm">
-        <Table>
-          <TableHeader className="bg-gray-50">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="border-b">
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    className="font-semibold text-gray-700 py-3"
-                  >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row, idx) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className={`${
-                    idx % 2 === 0 ? "bg-white" : "bg-gray-50"
-                  } hover:bg-indigo-50 transition-colors duration-150 ${
-                    isRowAnimated ? "animate-slideIn" : ""
-                  }`}
-                  style={{
-                    animationDelay: `${idx * 0.03}s`,
-                    transitionDelay: `${idx * 0.03}s`,
-                  }}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="py-3">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-32 text-center"
-                >
-                  <div className="flex flex-col items-center justify-center text-gray-500 animate-fadeIn">
-                    <Users size={36} className="mb-2 text-gray-300" />
-                    <p>No clients found</p>
-                    <p className="text-sm">
-                      Try changing your search or filters
-                    </p>
-                  </div>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+      <div
+        className={`${
+          showFilterMenu || !showFilterMenu ? "" : "hidden sm:block"
+        } ${showFilterMenu ? "block" : "hidden sm:block"}`}
+      >
+        <SortPanel
+          sortOptions={sortOptions}
+          onSortChange={setSortOptions}
+          availableFields={availableFields}
+        />
       </div>
 
-      <div className="text-xs text-gray-500 text-center mt-2">
+      <div className="rounded-lg overflow-x-auto overflow-y-hidden">
+        <div className="min-w-full rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+          <Table>
+            <TableHeader className="bg-gray-50">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id} className="border-b">
+                  {headerGroup.headers.map((header) => (
+                    <TableHead
+                      key={header.id}
+                      className="font-semibold text-gray-700 py-3 px-2 sm:px-4 text-xs sm:text-sm"
+                    >
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row, idx) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    className={`${
+                      idx % 2 === 0 ? "bg-white" : "bg-gray-50"
+                    } hover:bg-indigo-50 transition-colors duration-150 ${
+                      isRowAnimated ? "animate-slideIn" : ""
+                    }`}
+                    style={{
+                      animationDelay: `${idx * 0.03}s`,
+                      transitionDelay: `${idx * 0.03}s`,
+                    }}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        className="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm"
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-32 text-center"
+                  >
+                    <div className="flex flex-col items-center justify-center text-gray-500 animate-fadeIn">
+                      <Users size={36} className="mb-2 text-gray-300" />
+                      <p>No clients found</p>
+                      <p className="text-sm">
+                        Try changing your search or filters
+                      </p>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      <div className="text-xs text-gray-500 text-center mt-2 hidden sm:block">
         Tip: Click on column headers to sort the table
       </div>
     </div>
